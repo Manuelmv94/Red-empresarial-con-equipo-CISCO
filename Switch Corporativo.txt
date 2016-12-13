@@ -1,0 +1,206 @@
+Current configuration : 4996 bytes
+!
+version 12.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Switch_Corporativo
+!
+boot-start-marker
+boot-end-marker
+!
+!
+username cisco privilege 15 secret 5 $1$48Rn$ZoojE5fq3OebF4gM1eld.1
+no aaa new-model
+system mtu routing 1500
+ip subnet-zero
+!
+!
+no ip domain-lookup
+!
+!
+crypto pki trustpoint TP-self-signed-814561024
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-814561024
+ revocation-check none
+ rsakeypair TP-self-signed-814561024
+!
+crypto pki trustpoint TP-self-signed-819359104
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-819359104
+ revocation-check none
+ rsakeypair TP-self-signed-819359104
+!
+!
+crypto pki certificate chain TP-self-signed-814561024
+ certificate self-signed 01
+  30820249 308201B2 A0030201 02020101 300D0609 2A864886 F70D0101 04050030
+  30312E30 2C060355 04031325 494F532D 53656C66 2D536967 6E65642D 43657274
+  69666963 6174652D 38313435 36313032 34301E17 0D393330 33303130 30323335
+  355A170D 32303031 30313030 30303030 5A303031 2E302C06 03550403 1325494F
+  532D5365 6C662D53 69676E65 642D4365 72746966 69636174 652D3831 34353631
+  30323430 819F300D 06092A86 4886F70D 01010105 0003818D 00308189 02818100
+  C56A3AC8 5084E68C 4FF90103 881488EC 8977809F EEBEDED0 4116946C 388C59EF
+  0584D8AB A2FC6DEE 2CAC3573 694FC112 B95CFF97 C713AFF0 DCCA38EF 06730C59
+  A696A129 9030DE30 3A2B403C E6A44E1A 285B2438 C53362CC EEEFAA49 6D1F313D
+  CE38C5A7 EB46E0A8 DE08607D 7FD97A3E 5B432F86 8E2EDDE8 6FFDA700 C2502FEF
+  02030100 01A37330 71300F06 03551D13 0101FF04 05300301 01FF301E 0603551D
+  11041730 15821353 77697463 685F436F 72706F72 61746976 6F2E301F 0603551D
+  23041830 168014F6 64B787E2 763CD1EC B47CE405 209D3D92 3A4B2D30 1D060355
+  1D0E0416 0414F664 B787E276 3CD1ECB4 7CE40520 9D3D923A 4B2D300D 06092A86
+  4886F70D 01010405 00038181 00993708 BF06218D FD8D2D9E F47B1219 7D58FC09
+  07D2807A BE1DEAED D6AFEFEB 7E3B52E1 129C2499 28014352 7BC01EF9 21A59270
+  52C3EA84 C9FF7435 E8CE39C3 962B17BA 83B2A657 D19209E2 A67CF089 FE00259D
+  7CC2D9C1 30A38AAB 66C63007 9D572361 50C76275 F81155B9 A57B0AC2 A0477BDE
+  0776E5B2 606C92DF 9D90D41B 98
+  quit
+crypto pki certificate chain TP-self-signed-819359104
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+!
+!
+interface FastEthernet0/1
+ description puerto troncal
+ switchport mode trunk
+!
+interface FastEthernet0/2
+ description L2L
+ switchport access vlan 2
+ switchport mode access
+!
+interface FastEthernet0/3
+ description puerto de acceso segmento 1
+ switchport access vlan 3
+ switchport mode access
+ no cdp enable
+ spanning-tree portfast
+!
+interface FastEthernet0/4
+ description puerto de acceso segmento 2
+ switchport access vlan 4
+ switchport mode access
+ no cdp enable
+ spanning-tree portfast
+!
+interface FastEthernet0/5
+ description VLAN SERVERS(futuro uso)
+ switchport access vlan 5
+ switchport mode access
+ no cdp enable
+ spanning-tree portfast
+!
+interface FastEthernet0/6
+ description VLAN administracion
+ switchport access vlan 6
+ switchport mode access
+ no cdp enable
+ spanning-tree portfast
+!
+interface FastEthernet0/7
+ description VLAN INTERNET
+ switchport access vlan 7
+ switchport mode access
+ no cdp enable
+!
+interface FastEthernet0/8
+!
+interface FastEthernet0/9
+!
+interface FastEthernet0/10
+!
+interface FastEthernet0/11
+!
+interface FastEthernet0/12
+!
+interface FastEthernet0/13
+!
+interface FastEthernet0/14
+!
+interface FastEthernet0/15
+!
+interface FastEthernet0/16
+!
+interface FastEthernet0/17
+!
+interface FastEthernet0/18
+!
+interface FastEthernet0/19
+!
+interface FastEthernet0/20
+!
+interface FastEthernet0/21
+!
+interface FastEthernet0/22
+!
+interface FastEthernet0/23
+!
+interface FastEthernet0/24
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1
+ no ip address
+ no ip route-cache
+ shutdown
+!
+interface Vlan6
+ ip address 172.2.1.1 255.255.255.0
+ no ip route-cache
+!
+interface Vlan7
+ no ip address
+ no ip route-cache
+ shutdown
+!
+ip default-gateway 172.2.1.254
+ip http server
+ip http secure-server
+logging trap debugging
+logging 172.2.8.1
+access-list 1 permit 172.2.8.0 0.0.0.255
+!
+control-plane
+!
+banner motd ^CCCCC
+         /\
+        /  \   ___ ___ ___ ___  ___
+       / /\ \ / __/ __/ _ / __|/ _ \
+      / ____ | (_| (_|  __\__ | (_) |
+     /_/    \_\___\___\___|___/\___/  _     _
+              | |      (_)           (_)   | |
+  _ __ ___ ___| |_ _ __ _ _ __   __ _ _  __| | ___
+ | '__/ _ / __| __| '__| | '_ \ / _` | |/ _` |/ _ \
+ | | |  __\__ | |_| |  | | | | | (_| | | (_| | (_) |
+ |_|  \___|___/\__|_|  |_|_| |_|\__, |_|\__,_|\___/
+                                 __/ |
+                                |___/
+^C
+!
+line con 0
+ exec-timeout 5 0
+ login local
+line vty 0 4
+ access-class 1 in
+ exec-timeout 5 0
+ login local
+line vty 5 15
+ access-class 1 in
+ exec-timeout 5 0
+ login local
+!
+!
+monitor session 1 source interface Fa0/4
+monitor session 1 destination interface Fa0/3
+end
